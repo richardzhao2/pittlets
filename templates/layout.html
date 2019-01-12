@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>pittlets</title>
+</head>
+<body>
+    <div class = 'header'>
+        <div class = 'header-top'>
+            <div class = 'header-left'>
+                <a href =  {% url 'about' %}>about pittlets</a>
+            </div>
+            <div class = 'header-right'>
+                Welcome,
+                {% if is_authenticated is True %}
+                    {{ user.username }}
+                    | <a href = {% url 'logout' %}>logout</a> <!-- should be signout !-->
+                {% else %}
+                    Guest!
+                    | <a href = {% url 'signup' %}>register</a>/<a href = {% url 'login' %}>login</a>
+                {% endif %}
+
+            </div>
+
+            <br>
+
+            <a style = "opacity: 1;" href = {% url 'home' %} >
+                <img class = "centered_image" src = "{% static 'images/logo.png' %}"></img>
+            </a>
+        </div>
+
+        <br>
+
+        <!-- This is the bottom part of the header -->
+        <div class = 'strip'>
+            <div class = 'strip-content'>
+                <div class = 'strip-content-left'>
+                    <form name = 'search_form' type = 'get' action = "{% url 'search' %}">
+                        <input name = 'search_box' class = 'search'; type="text" placeholder="Search..">
+                        <button id = 'search_submit' type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class = 'strip-content-right'>
+                    <a class = 'post' style = "opacity:1;" href= {% url 'post' %}>
+                        post listing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class = 'content'>
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    </div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>

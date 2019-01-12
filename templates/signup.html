@@ -1,0 +1,28 @@
+{% extends "./layout.html" %}
+
+
+{% block content %}
+    <style>
+    a {
+        opacity: 0.5;
+    }
+    a:hover{
+        opacity: 1;
+    }
+    </style>
+
+    <div class = 'first-column'>
+        <h2>Sign up</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value = "signup">Sign up</button>
+        </form>
+
+    </div>
+
+    <div class = 'second-column'>
+        <h2>Already have an account?</h2>
+        <a href = {% url 'login' %}> Go here </a>
+    </div>
+{% endblock content %}

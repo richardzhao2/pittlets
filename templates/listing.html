@@ -1,0 +1,88 @@
+{% extends "./layout.html" %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .second-column a {
+            opacity: 1;
+            text-decoration: underline;
+            color: #7092BE;
+        }
+
+        .second-column a:hover {
+            opacity: .7;
+            text-decoration: underline;
+        }
+    </style>
+    <br>
+    <br>
+
+    <div class = 'first-column'>
+        <div class = "listing_title";> {{ listing.title }} </div>
+        <br>
+        <img style = 'max-width:100%; max-height:900px;' src = "../../media/{{ images.photo }}">
+        <br>
+
+        {% if cur_user == listing.user %}
+            <a href = {% url 'edit' listing.id %}> update </a> --
+            <a href = {% url 'delete' listing.id %}> delete </a>
+            <br>
+        {% endif %}
+
+        <div class = 'listing_descriptor'> Size:  </div> <div class = 'listing_value'>{{ listing.size }} </div>
+        <br>
+        <div class = 'listing_descriptor'> Type of Listing:  </div> <div class = 'listing_value'>{{ listing.type }} </div>
+        <br>
+        <div class = 'listing_descriptor'> Address:  </div> <div class = 'listing_value'>{{ listing.address }} </div>
+        <br>
+        <div class = 'listing_descriptor'> Amenities:  </div> <div class = 'listing_value'>{{ listing.amenities }} </div>
+        <br>
+        <div class = 'listing_descriptor'> Date Listed:  </div> <div class = 'listing_value'>{{ listing.pub_date }} </div>
+        <br>
+        <div class = 'listing_descriptor'> Prorated:  </div>
+
+        {% if listing.prorated is not False %}
+            <div class = 'listing_value'> Yes </div>
+        {% else %}
+            <div class = 'listing_value'> No </div>
+        {% endif %}
+        <br>
+        <div class = 'listing_descriptor'> Price:  </div> <div class = 'listing_value'>{{ listing.price }} </div>
+        <br>
+        <br>
+        <div class = 'listing_description'> Description:  </div> <div class = 'listing_value'>{{ listing.description }} </div>
+    </div>
+
+    <div class = 'second-column'>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <iframe height = "300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/search?key=AIzaSyBgMWAy-8dJcNhF1ibTRiU_7Omem4bGexY&q={{ listing.address }}" allowfullscreen> </iframe>
+        <br>
+        <br>
+        <div class = "listing_title";> Contact </div>
+        {% if is_authenticated is not False %}
+            {{ owner.email }}
+        {% else %}
+            You must log in to see contact information
+        {% endif %}
+
+        <h3 style="text-decoration:underline; color:#121212;"> Tips for not getting scammed</h3>
+        DO NOT SEND PAYMENT THROUGH VENMO.
+        <br>
+        BE WARY OF PEOPLE PUTTING THEIR CONTACT INFO IN THEIR MESSAGE. If their contact info does not match their registered email address, there is no way to no if they are a student.
+
+        <h3 style="text-decoration:underline; color:#121212;"> Looking to put your place up for rent?</h3>
+        Simply click on "post listing" and fill out the appropriate forms.
+
+        <h3 style="text-decoration:underline; color:#121212;"> Want to help prevent me from dropping out of school and becoming a hermit?</h3>
+        Please rate my reviews on <a href = "https://www.yelp.com/user_details?userid=XCZm0RRjnvz54mZGP25_cg";>Yelp</a> and I might consider it.
+        </div>
+    </div>
+
+
+
+{% endblock content %}

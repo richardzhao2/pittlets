@@ -1,0 +1,128 @@
+{% extends "./layout.html" %}
+{% load static %}
+
+
+{% block content %}
+    <style>
+        #id_amenities {
+            list-style-type: none !important;
+            list-style: none !important;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+
+        }
+
+        #id_type {
+            list-style-type: none !important;
+            list-style: none !important;
+        }
+
+        .button {
+            background-color: #7092BE;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            opacity: 1;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+    </style>
+    <br>
+    <div class="first-column" ;>
+        <ul>
+            {% for listing in listings %}
+                <br>
+                <div class = 'home_posting' style = 'display:inline'>
+                    <a style = 'line-height: 40px; font-size: 36px; color:#273342;' href = {% url 'listing_post' listing.id %}> {{ listing.title }} </a>
+                    <br><br>
+                    <div style = 'font-size: 12px;'>
+                        {% for image in list_of_image_querysets %}
+                            {% if image.post == listing %}
+                                <div class = 'listing_image_container'>
+                                    <img id = 'small_img' class = "listing_image"; src = "../../media/{{ image.photo }}">
+                                    <img id = 'big_img' class = 'listing_big_image'; src = "../../media/{{ image.photo }}">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div style = 'display: inline-block; max-width: 50%; padding-left: 10px;'>
+                            <b>Date Listed:</b> {{ listing.pub_date }} <br>
+                            <b>Rent:</b> ${{ listing.price }} <br>
+                            <b>Size:</b> {{ listing.size }} <br>
+                            <b>Address:</b> {{ listing.address }} <br>
+                            <b>Type of Listing:</b> {{ listing.type }} <br>
+                            <b>Amenities:</b> {{ listing.amenities }} <br>
+                            {% if listing.prorated is not False %}
+                                <b>Prorated:</b> Yes
+                            {%  else %}
+                                <b>Prorated:</b> No
+                            {%  endif %}
+
+                        </div>
+
+                        <p>
+                            <b>Description: </b>
+                            {{ listing.description }}
+                        </p>
+                    </div>
+
+                </div>
+                <hr>
+            {% endfor %}
+        </ul>
+
+        {% if listings.has_other_pages %}
+          <ul class="pagination">
+            {% if listings.has_previous %}
+              <div class = 'arrow';><a href="?page={{ listings.previous_page_number }}">&laquo; prev </a></div>
+            {% endif %}
+            {% for i in users.paginator.page_range %}
+              {% if listings.number == i %}
+                <div class="arrow"><span>{{ i }} <span class="sr-only">(current)</span></span></div>
+              {% else %}
+                <div class = 'arrow';><a href="?page={{ i }}">{{ i }}</a></div>
+              {% endif %}
+            {% endfor %}
+            {% if listings.has_next %}
+              <div class = 'arrow';><a href="?page={{ listings.next_page_number }}">next &raquo;</a></div>
+            {% endif %}
+          </ul>
+        {% endif %}
+    </div>
+
+    <div class="second-column" ;>
+        <br>
+        <form name = 'search_filter' type = 'get' action = "{% url 'search' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class = 'button' type="submit" value = "search">Filter</button>
+        </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1 style="text-decoration:underline; color:#121212;"> faq.</h1>
+        <b>You must register with an .edu email address and login to post and inquire about listings. </b>
+
+        <h3 style="text-decoration:underline; color:#121212;"> Looking for a place to sublet/rent?</h3>
+        Simply go through the listings or use filters to cut down the search.
+
+        <h3 style="text-decoration:underline; color:#121212;"> Looking to put your place up for rent?</h3>
+        Simply click on "post listing" and fill out the appropriate forms.
+
+        <h3 style="text-decoration:underline; color:#121212;"> Want to help prevent me from dropping out of school?</h3>
+        Please rate my reviews on <a href = "https://www.yelp.com/user_details?userid=XCZm0RRjnvz54mZGP25_cg";>Yelp</a> and I might consider it.
+    </div>
+
+{% endblock content %}
